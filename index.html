@@ -1,16 +1,422 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍💻</text></svg>" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Portfolio d'Eduard GOLUB — Étudiant BUT Informatique à l'IUT La Rochelle. Développeur PHP / Symfony." />
-    <title>Eduard GOLUB — Portfolio</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eduard Golub, développeur IA</title>
+<meta name="description" content="Eduard Golub, développeur IA et automatisation. Agents, connecteurs MCP, RAG et automatisations, de la conception à la mise en production.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eduard-golub.github.io/">
+<meta property="og:title" content="Eduard Golub, développeur IA">
+<meta property="og:description" content="Je branche l’IA sur le vrai travail des équipes.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23EF5B25'/%3E%3Ctext x='16' y='21.5' font-family='monospace' font-size='14' font-weight='700' text-anchor='middle' fill='%23151514'%3EEG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --paper: #F0EFEA; --sheet: #F8F7F3; --ink: #151514; --muted: #57554F; --line: #CBC9C1;
+  --grid: rgb(21 21 20 / .06); --accent: #EF5B25; --accent-text: #B03C0C; --on-accent: #151514; --shadow: #151514;
+  --inv-paper: #161615; --inv-sheet: #20201E; --inv-ink: #EDEBE5; --inv-muted: #A9A69F; --inv-line: #3D3C38;
+  --inv-grid: rgb(237 235 229 / .06); --inv-accent-text: #FF8F62;
+  --sans: "Archivo", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #141413; --sheet: #1D1D1B; --ink: #EDEBE5; --muted: #A9A69F; --line: #3D3C38;
+    --grid: rgb(237 235 229 / .045); --accent: #F26A35; --accent-text: #FF8F62; --shadow: #45433E;
+    --inv-paper: #1F1F1D; --inv-sheet: #282826; --inv-muted: #B3B0A9; --inv-line: #47453F; --inv-grid: rgb(237 235 229 / .07);
+    color-scheme: dark;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink);
+  font: 400 1.0625rem/1.6 var(--sans);
+}
+body, .inverse {
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.inverse {
+  --paper: var(--inv-paper); --sheet: var(--inv-sheet); --ink: var(--inv-ink); --muted: var(--inv-muted);
+  --line: var(--inv-line); --grid: var(--inv-grid); --accent-text: var(--inv-accent-text);
+  background-color: var(--paper); color: var(--ink);
+}
+h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -.02em; line-height: 1.05; text-wrap: balance; }
+h1 { font-size: clamp(2.4rem, 4.4vw, 3.6rem); font-stretch: 82%; }
+h2 { font-size: clamp(1.9rem, 3.4vw, 2.75rem); font-stretch: 85%; }
+h3 { font-size: 1.15rem; letter-spacing: -.01em; line-height: 1.25; }
+p { margin: 0; text-wrap: pretty; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mono, .eyebrow, .tag, time, figcaption, .meta { font-family: var(--mono); font-size: .8125rem; font-weight: 400; letter-spacing: 0; }
+.muted { color: var(--muted); }
+.wrap { width: min(1200px, 100% - 2rem); margin-inline: auto; }
+.section { padding-block: clamp(4rem, 9vw, 7rem); }
+section[id] { scroll-margin-top: 72px; }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 1rem; top: 1rem; z-index: 20; background: var(--sheet); padding: .5rem 1rem; }
+
+/* Boutons */
+.btn {
+  display: inline-flex; align-items: center; padding: .8rem 1.2rem; white-space: nowrap;
+  font: 600 .95rem/1 var(--sans); text-decoration: none;
+  color: var(--on-accent); background: var(--accent); border: 1.5px solid var(--on-accent);
+  box-shadow: 3px 3px 0 var(--shadow); transition: transform .15s var(--ease), box-shadow .15s var(--ease);
+}
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--shadow); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--shadow); }
+.btn-ghost { color: var(--ink); background: var(--sheet); border-color: var(--ink); }
+.btn-sm { padding: .55rem .85rem; font-size: .875rem; }
+.link {
+  font-weight: 600; text-decoration: underline; text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px; text-underline-offset: 4px;
+}
+.link:hover { color: var(--accent-text); }
+
+/* Navigation */
+.nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--line); }
+.nav-in { display: flex; align-items: center; gap: 2rem; height: 64px; }
+.brand { margin-right: auto; font-weight: 800; font-stretch: 85%; font-size: 1.15rem; text-decoration: none; letter-spacing: -.01em; }
+.nav nav { display: flex; gap: 1.75rem; }
+.nav nav a { text-decoration: none; font-size: .925rem; color: var(--muted); }
+.nav nav a:hover { color: var(--ink); }
+
+/* Hero */
+.hero {
+  display: grid; grid-template-columns: 1.3fr .9fr; gap: clamp(2rem, 6vw, 5.5rem); align-items: center;
+  min-height: calc(100dvh - 64px); padding-block: clamp(2.5rem, 7vh, 5rem);
+}
+.hero-text { display: grid; gap: 1.5rem; justify-items: start; }
+.eyebrow { color: var(--muted); }
+.lede { font-size: clamp(1.05rem, 1.4vw, 1.2rem); color: var(--muted); max-width: 34rem; }
+.actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: .5rem; }
+mark { color: inherit; background: linear-gradient(transparent 68%, var(--accent) 68%, var(--accent) 94%, transparent 94%); }
+
+/* Schéma : parcours d'une question */
+.flow { margin: 0; display: grid; gap: 1.1rem; }
+.flow ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.6rem; }
+.flow li {
+  position: relative; display: grid; gap: .3rem; padding: .85rem 1rem;
+  background: var(--sheet); border: 1.5px solid var(--ink); box-shadow: 4px 4px 0 var(--shadow);
+}
+.flow li:nth-child(even) { transform: rotate(.4deg); margin-left: .75rem; }
+.flow li:nth-child(odd) { transform: rotate(-.3deg); }
+.flow li + li::before {
+  content: ""; position: absolute; left: 1.4rem; bottom: calc(100% + 1.5px); height: 1.6rem;
+  border-left: 1.5px dashed var(--ink);
+}
+.flow li:nth-child(even)::before { left: .65rem; }
+.flow strong { font-weight: 600; line-height: 1.3; }
+.tag { color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .25rem; }
+.chips span { font-family: var(--mono); font-size: .75rem; padding: .15rem .45rem; border: 1px solid var(--line); }
+.chips .on { background: var(--accent); color: var(--on-accent); border-color: var(--on-accent); }
+.flow .out { background: var(--accent); color: var(--on-accent); border-color: var(--on-accent); }
+.flow .out .tag { color: var(--on-accent); }
+figcaption { color: var(--muted); }
+
+/* AIFFI Box */
+.dossier {
+  position: relative; margin-top: 2.25rem; padding: clamp(1.5rem, 4vw, 3rem);
+  background: var(--sheet); border: 1.5px solid var(--ink); box-shadow: 6px 6px 0 var(--shadow);
+}
+.tab {
+  position: absolute; left: -1.5px; bottom: 100%; margin: 0 0 -1.5px; padding: .45rem .9rem calc(.45rem + 1.5px);
+  background: var(--sheet); border: 1.5px solid var(--ink); border-bottom: 0;
+}
+.dossier-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(2rem, 5vw, 4rem); }
+.dossier-main { display: grid; gap: 1.25rem; align-content: start; }
+.dossier-main > p { color: var(--muted); max-width: 60ch; }
+.caps { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2.25rem; margin: 1rem 0 0; }
+.caps dt { font-weight: 650; margin-bottom: .25rem; }
+.caps dd { margin: 0; color: var(--muted); font-size: .975rem; }
+.role { border-left: 1.5px dashed var(--line); padding-left: clamp(1.5rem, 3vw, 2.5rem); display: grid; gap: 1.5rem; align-content: start; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+.steps li { display: grid; gap: .2rem; }
+.steps time { color: var(--muted); }
+.steps span { color: var(--muted); font-size: .95rem; }
+.note {
+  padding: 1rem 1.1rem; font-size: .975rem; transform: rotate(-.8deg);
+  background: color-mix(in srgb, var(--accent) 18%, var(--sheet)); border: 1.5px solid var(--ink); box-shadow: 3px 3px 0 var(--shadow);
+}
+
+/* Méthode */
+.methode { display: grid; gap: 1.25rem; }
+.methode .lede { max-width: 40rem; }
+.ruler {
+  list-style: none; margin: 2.5rem 0 3rem; padding: 1.4rem 0 0; position: relative;
+  display: grid; grid-template-columns: repeat(6, 1fr); border-top: 1.5px solid var(--ink);
+}
+.ruler::before {
+  content: ""; position: absolute; top: -2.5px; left: 0; width: 100%; height: 4px;
+  background: var(--accent); transform-origin: left;
+}
+.ruler li { position: relative; font-family: var(--mono); font-size: .8125rem; }
+.ruler li::before { content: ""; position: absolute; top: -1.4rem; left: 0; height: .75rem; border-left: 1.5px solid var(--ink); }
+.spec { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 3.5rem; margin: 0; }
+.spec dt { font-family: var(--mono); font-size: .8125rem; color: var(--accent-text); margin-bottom: .4rem; }
+.spec dd { margin: 0; max-width: 46ch; }
+
+/* Projets */
+.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.25rem; margin-top: 2.5rem; }
+.tile {
+  display: flex; flex-direction: column; gap: .75rem; padding: 1.5rem;
+  background: var(--sheet); border: 1.5px solid var(--ink); box-shadow: 0 0 0 var(--shadow);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.tile:hover { transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--shadow); }
+.tile p { color: var(--muted); }
+.tile .link { margin-top: auto; padding-top: .5rem; color: var(--ink); }
+.tile .meta { color: var(--muted); }
+.t-campus { grid-column: span 4; grid-row: span 2; padding: 2rem; }
+.t-campus h3 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); font-stretch: 85%; }
+.t-campus > p:not(.meta) { font-size: 1.05rem; max-width: 46ch; }
+.t-auto { grid-column: span 2; background: var(--accent); --ink: var(--on-accent); --muted: var(--on-accent); --line: var(--on-accent); color: var(--on-accent); border-color: var(--on-accent); }
+.t-hulub { grid-column: span 2; }
+.t-music, .t-game { grid-column: span 3; }
+.chain { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-block: 1rem; font-family: var(--mono); font-size: .8125rem; }
+.chain span { padding: .5rem .75rem; background: var(--paper); border: 1.5px solid var(--ink); box-shadow: 2px 2px 0 var(--shadow); }
+.chain b { font-weight: 400; color: var(--muted); }
+.stack { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+.stack li { font-family: var(--mono); font-size: .75rem; padding: .15rem .5rem; border: 1px solid var(--line); }
+
+/* Parcours */
+.parcours { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+.timeline { list-style: none; margin: 2.5rem 0 0; padding: 0; border-left: 1.5px solid var(--ink); }
+.timeline li { position: relative; display: grid; grid-template-columns: 12rem 1fr; gap: 1.5rem; padding: 0 0 2rem 1.75rem; }
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li::before {
+  content: ""; position: absolute; left: -5.5px; top: .3rem; width: 9px; height: 9px;
+  background: var(--paper); border: 1.5px solid var(--ink);
+}
+.timeline li:first-child::before { background: var(--accent); }
+.timeline time { color: var(--muted); padding-top: .1rem; }
+.timeline h3 { font-size: 1.05rem; }
+.timeline p { color: var(--muted); font-size: .95rem; margin-top: .2rem; }
+.about { display: grid; gap: 1.25rem; }
+.about p { color: var(--muted); }
+.about p:first-of-type { color: var(--ink); font-size: 1.05rem; }
+.skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 4.5rem; padding-top: 2rem; border-top: 1.5px solid var(--ink); }
+.skills h3 { font-size: 1rem; margin-bottom: .5rem; }
+.skills p { color: var(--muted); font-size: .95rem; }
+
+/* Contact */
+.contact { display: grid; gap: 1.75rem; justify-items: start; }
+.contact h2 { max-width: 22ch; }
+.mail {
+  font-size: clamp(1.5rem, 5vw, 3.5rem); font-weight: 700; font-stretch: 85%; letter-spacing: -.02em;
+  text-decoration: none; overflow-wrap: anywhere;
+  background: linear-gradient(var(--accent), var(--accent)) 0 95% / 100% .16em no-repeat;
+  transition: background-size .3s var(--ease);
+}
+.mail:hover { background-size: 100% .5em; }
+.links { display: flex; gap: 1.5rem; }
+.foot { padding-block: 2rem; border-top: 1px solid var(--line); color: var(--muted); }
+
+/* Animations : une seule séquence au chargement, puis apparitions au défilement */
+@media (prefers-reduced-motion: no-preference) {
+  .flow li { animation: slip .7s var(--ease) both; animation-delay: calc(var(--i) * 170ms + 150ms); }
+  @keyframes slip { from { opacity: 0; translate: 0 14px; } }
+  @supports (animation-timeline: view()) {
+    .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 35%; }
+    @keyframes rise { from { opacity: 0; translate: 0 28px; } }
+    .ruler::before { animation: fill linear both; animation-timeline: view(); animation-range: entry 40% cover 55%; }
+    @keyframes fill { from { transform: scaleX(0); } }
+  }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Tablette */
+@media (max-width: 960px) {
+  .nav nav { display: none; }
+  .hero { grid-template-columns: 1fr; min-height: 0; }
+  .flow { max-width: 30rem; }
+  .dossier-grid, .parcours { grid-template-columns: 1fr; }
+  .role { border-left: 0; padding-left: 0; border-top: 1.5px dashed var(--line); padding-top: 2rem; }
+  .bento { grid-template-columns: 1fr 1fr; }
+  .t-campus, .t-music, .t-game { grid-column: span 2; grid-row: auto; }
+  .t-auto, .t-hulub { grid-column: span 1; }
+  .skills { grid-template-columns: 1fr 1fr; }
+}
+/* Mobile */
+@media (max-width: 640px) {
+  .caps, .spec, .skills { grid-template-columns: 1fr; }
+  .ruler { grid-template-columns: 1fr 1fr 1fr; row-gap: 2.4rem; }
+  .bento > * { grid-column: 1 / -1; }
+  .chain { flex-direction: column; align-items: flex-start; }
+  .chain b { rotate: 90deg; margin-left: 1rem; }
+  .timeline li { grid-template-columns: 1fr; gap: .2rem; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#contenu">Eduard Golub</a>
+    <nav aria-label="Navigation principale">
+      <a href="#experience">Expérience</a>
+      <a href="#methode">Méthode</a>
+      <a href="#projets">Projets</a>
+      <a href="#parcours">Parcours</a>
+    </nav>
+    <a class="btn btn-sm" href="#contact">Me contacter</a>
+  </div>
+</header>
+
+<main id="contenu">
+
+<section class="wrap hero">
+  <div class="hero-text">
+    <p class="eyebrow">Eduard Golub, développeur IA et automatisation</p>
+    <h1>Je branche l’IA sur le <mark>vrai travail</mark> des équipes.</h1>
+    <p class="lede">Agents, connecteurs MCP, RAG et automatisations, de la conception à la mise en production. Alternant chez Mismo, à Nantes.</p>
+    <div class="actions">
+      <a class="btn" href="#contact">Me contacter</a>
+      <a class="btn btn-ghost" href="#experience">Voir mon travail</a>
+    </div>
+  </div>
+
+  <figure class="flow">
+    <ol>
+      <li style="--i:0"><span class="tag">besoin</span><strong>Comprendre comment l’équipe travaille vraiment</strong></li>
+      <li style="--i:1"><span class="tag">agent</span><strong>Un assistant spécialisé pour chaque métier</strong>
+        <span class="chips"><span>RH</span><span class="on">Finance</span><span>Commerce</span><span>Support</span></span></li>
+      <li style="--i:2"><span class="tag">connecteurs MCP et RAG</span><strong>Branché sur les outils et les documents de l’équipe</strong>
+        <span class="chips"><span>ERP</span><span>Documents</span><span>E-mails</span></span></li>
+      <li style="--i:3" class="out"><span class="tag">production</span><strong>Déployé, sécurisé et supervisé</strong></li>
+    </ol>
+    <figcaption>fig. 1 : ma façon de relier une IA au travail d’une équipe</figcaption>
+  </figure>
+</section>
+
+<section id="experience" class="wrap section">
+  <article class="dossier reveal">
+    <p class="tab mono">Mismo Informatique · depuis avril 2026</p>
+    <div class="dossier-grid">
+      <div class="dossier-main">
+        <h2>Chez Mismo, je construis une IA d’entreprise hébergée en interne.</h2>
+        <p>Elle s’appelle AIFFI Box et sert d’assistant aux équipes, sans que leurs données ne sortent de l’entreprise. Je l’ai construite en stage avec l’équipe, et je la fais évoluer en alternance.</p>
+        <dl class="caps">
+          <div><dt>Connecteurs MCP</dt><dd>Je les conçois et je les maintiens pour relier l’IA aux outils de l’entreprise et de ses partenaires.</dd></div>
+          <div><dt>Assistants métier</dt><dd>RH, finance, R&amp;D, IT, commerce, après-vente, avec un aiguillage automatique vers le bon assistant.</dd></div>
+          <div><dt>RAG</dt><dd>Je construis les pipelines qui rendent les documents exploitables&nbsp;: découpage, embeddings, bases vectorielles, recherche sémantique.</dd></div>
+          <div><dt>Automatisations</dt><dd>J’automatise des processus métier avec l’IA, comme le tri des e-mails entrants.</dd></div>
+          <div><dt>Modèles</dt><dd>Je déploie et j’optimise les modèles d’IA sur un serveur dédié.</dd></div>
+          <div><dt>Confidentialité</dt><dd>Hébergement interne, droits d’accès par équipe, supervision de la plateforme.</dd></div>
+        </dl>
+      </div>
+      <aside class="role">
+        <h3>Mon parcours chez Mismo</h3>
+        <ol class="steps">
+          <li><time>avr. - juin 2026</time><strong>Stage</strong>
+            <span>Premiers assistants connectés aux données de l’entreprise, connexion des outils internes à l’ERP, choix de l’outil d’automatisation, mise en ligne sécurisée.</span></li>
+          <li><time>depuis sept. 2026</time><strong>Alternance</strong>
+            <span>Je fais évoluer la plateforme, en lien direct avec les équipes métier.</span></li>
+        </ol>
+        <p class="note">Mon vrai défi est autant humain que technique&nbsp;: comprendre les besoins de chaque équipe et l’accompagner dans l’adoption de l’IA.</p>
+      </aside>
+    </div>
+  </article>
+</section>
+
+<section id="methode" class="inverse">
+  <div class="wrap section methode">
+    <h2>L’IA, c’est aussi ma façon de travailler.</h2>
+    <p class="lede">Je mène mes projets de bout en bout avec des agents IA, du cadrage à la maintenance.</p>
+    <ol class="ruler" aria-label="Étapes d’un projet">
+      <li>Cadrage</li><li>Architecture</li><li>Code</li><li>Tests</li><li>Déploiement</li><li>Maintenance</li>
+    </ol>
+    <dl class="spec">
+      <div><dt>Agents en parallèle</dt><dd>Je code avec Claude Code et ChatGPT, j’orchestre plusieurs agents à la fois et je leur écris des skills et des serveurs MCP sur mesure.</dd></div>
+      <div><dt>Le bon modèle pour chaque tâche</dt><dd>Claude, ChatGPT ou des modèles ouverts comme DeepSeek et Qwen, en API ou hébergés en interne.</dd></div>
+      <div><dt>Mise en production</dt><dd>CI/CD, tests automatisés, déploiement avec Docker et Portainer, supervision avec Grafana et suivi des requêtes IA avec Langfuse.</dd></div>
+      <div><dt>Certifications</dt><dd>Anthropic Academy (Claude) et Kestra.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="projets" class="wrap section">
+  <h2>Projets</h2>
+  <div class="bento reveal">
+    <article class="tile t-campus">
+      <p class="meta">Université de La Rochelle · depuis sept. 2025</p>
+      <h3>Smart Campus</h3>
+      <p>Plateforme IoT de suivi énergétique déployée à l’IUT La Rochelle. J’y suis Scrum Master et Product Owner.</p>
+      <div class="chain"><span>Capteurs ESP32</span><b aria-hidden="true">→</b><span>API Symfony</span><b aria-hidden="true">→</b><span>Interface React</span></div>
+      <ul class="stack"><li>FreeRTOS</li><li>API Platform</li><li>Vite</li><li>MariaDB</li><li>Chart.js</li><li>Docker</li></ul>
+      <a class="link" href="https://github.com/eduard-golub/smart-campus">Voir le code</a>
+    </article>
+    <article class="tile t-auto">
+      <p class="meta">En entreprise · automatisation</p>
+      <h3>Veille et prospection automatisées</h3>
+      <p>Les actualités arrivent par flux RSS et une IA garde celles qui intéressent l’entreprise. Pour chaque prospect repéré, elle cerne ses besoins, trouve ses coordonnées sur le web et propose un e-mail de prospection.</p>
+      <p class="meta">RSS → tri IA → prospects → e-mail</p>
+      <p class="meta">Outils open source hébergés en local</p>
+    </article>
+    <article class="tile t-hulub">
+      <p class="meta">Devis et factures</p>
+      <h3>HULUB</h3>
+      <p>Pour un électricien auto-entrepreneur. Application autonome en HTML et JavaScript, import et export XML, stockage local via la File System Access API.</p>
+    </article>
+    <article class="tile t-music">
+      <p class="meta">Symfony · Scrum</p>
+      <h3>Site pour une école de musique</h3>
+      <p>Préinscriptions en ligne et outils d’administration pour le secrétariat, développés en sprints Scrum.</p>
+      <ul class="stack"><li>Symfony</li><li>PHP</li><li>JavaScript</li><li>SQL</li></ul>
+      <a class="link" href="https://github.com/eduard-golub/cas-music">Voir le code</a>
+    </article>
+    <article class="tile t-game inverse">
+      <p class="meta">Projet tutoré · C++</p>
+      <h3>The Protector</h3>
+      <p>Shoot’em up rétro développé en équipe avec Qt Creator. Sauvegardes en SQL, Kanban, points quotidiens et retours réguliers du client.</p>
+      <a class="link" href="https://github.com/eduard-golub/the-protector">Voir le code</a>
+    </article>
+  </div>
+</section>
+
+<section id="parcours" class="wrap section">
+  <div class="parcours">
+    <div>
+      <h2>Parcours</h2>
+      <ol class="timeline reveal">
+        <li><time>sept. 2026 - aujourd’hui</time><div><h3>Alternant développeur full-stack et IA</h3><p>Mismo Informatique, La Chapelle-sur-Erdre</p></div></li>
+        <li><time>avr. - juin 2026</time><div><h3>Stagiaire développeur IA et automatisation</h3><p>Mismo Informatique</p></div></li>
+        <li><time>2024 - 2027</time><div><h3>BUT Informatique, parcours Réalisation d’applications</h3><p>IUT La Rochelle, 3<sup>e</sup> année en alternance</p></div></li>
+        <li><time>2024 - 2025</time><div><h3>Jobs étudiants</h3><p>Surveillant de baignade à la piscine du Petit Port, équipier chez Domino’s</p></div></li>
+      </ol>
+    </div>
+    <aside class="about">
+      <p>Sauveteur aquatique diplômé (BNSSA), j’ai appris à garder mon calme quand ça chauffe. Ça sert aussi en production.</p>
+      <p>Secouriste bénévole à La Rochelle Université et ambassadeur étudiant de l’IUT.</p>
+    </aside>
+  </div>
+  <div class="skills">
+    <div><h3>IA et données</h3><p>IA générative, agents IA, protocole MCP, RAG, bases vectorielles, recherche sémantique, automatisation</p></div>
+    <div><h3>Développement</h3><p>Symfony, PHP, React, JavaScript, HTML et CSS, API REST, SQL, C++, Arduino</p></div>
+    <div><h3>Mise en production</h3><p>Docker, CI/CD, Portainer, Grafana, Langfuse, Git, Linux, tests</p></div>
+    <div><h3>Méthode et langues</h3><p>Scrum Master et Product Owner, analyse des besoins. Français et anglais au travail, roumain et espagnol parlés.</p></div>
+  </div>
+</section>
+
+<section id="contact" class="wrap section contact">
+  <h2>Envie d’échanger sur l’IA souveraine, les agents ou l’automatisation&nbsp;?</h2>
+  <a class="mail" href="mailto:eduardgolub@outlook.com">eduardgolub@outlook.com</a>
+  <p class="links"><a class="link" href="https://www.linkedin.com/in/eduard-golub-aa867338a/">LinkedIn</a><a class="link" href="https://github.com/eduard-golub">GitHub</a></p>
+  <p class="muted">Basé à Nantes. Ouvert aux opportunités en Loire-Atlantique, sur site ou en hybride.</p>
+</section>
+
+</main>
+
+<footer class="wrap foot mono">© 2026 Eduard Golub</footer>
+</body>
 </html>
